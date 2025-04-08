@@ -2,22 +2,25 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Outil de gestion du temps</title>
+  <title>Gestion du temps</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Planning hebdomadaire</h1>
-  <table>
-    <tr>
-      <th>Jour</th><th>Matin</th><th>Après-midi</th><th>Soir</th>
-    </tr>
-    <tr><td>Lundi</td><td></td><td></td><td></td></tr>
-    <tr><td>Mardi</td><td></td><td></td><td></td></tr>
-    <tr><td>Mercredi</td><td></td><td></td><td></td></tr>
-    <tr><td>Jeudi</td><td></td><td></td><td></td></tr>
-    <tr><td>Vendredi</td><td></td><td></td><td></td></tr>
-    <tr><td>Samedi</td><td></td><td></td><td></td></tr>
-    <tr><td>Dimanche</td><td></td><td></td><td></td></tr>
+  <h1>Planning Hebdomadaire</h1>
+  <table id="planning">
+    <thead>
+      <tr><th>Jour</th><th>Matinée</th><th>Après-midi</th><th>Soir</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Lundi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
+      <tr><td>Mardi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
+      <tr><td>Mercredi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
+      <tr><td>Jeudi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
+      <tr><td>Vendredi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
+      <tr><td>Samedi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
+      <tr><td>Dimanche</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
+    </tbody>
   </table>
+  <p>Double-cliquez sur une cellule pour ajouter ou modifier une tâche.</p>
 </body>
 </html>
