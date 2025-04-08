@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Diagramme de Gantt</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/frappe-gantt/dist/frappe-gantt.min.js"></script>
+</head>
+<body>
+  <h1>Diagramme de Gantt</h1>
+  <svg id="gantt"></svg>
+
+  <script>
+    const tasks = [
+      {
+        id: '1',
+        name: 'Étudier le matin',
+        start: '2025-04-08',
+        end: '2025-04-12'
+      },
+      {
+        id: '2',
+        name: 'Travailler sur les devoirs',
+        start: '2025-04-10',
+        end: '2025-04-15'
+      }
+    ];
+    const gantt = new Gantt("#gantt", tasks);
+  </script>
+</body>
+</html>
