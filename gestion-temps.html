@@ -1,26 +1,136 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Gestion du temps</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Gestion du temps - Time Master Stud</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <h1>Planning Hebdomadaire</h1>
-  <table id="planning">
-    <thead>
-      <tr><th>Jour</th><th>Matinée</th><th>Après-midi</th><th>Soir</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Lundi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
-      <tr><td>Mardi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
-      <tr><td>Mercredi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
-      <tr><td>Jeudi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
-      <tr><td>Vendredi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
-      <tr><td>Samedi</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
-      <tr><td>Dimanche</td><td contenteditable></td><td contenteditable></td><td contenteditable></td></tr>
-    </tbody>
-  </table>
-  <p>Double-cliquez sur une cellule pour ajouter ou modifier une tâche.</p>
+    <h1>Planning Hebdomadaire avec Tâches</h1>
+
+    <!-- Formulaire d'ajout de tâche -->
+    <div>
+        <label for="day">Jour :</label>
+        <select id="day">
+            <option>Lundi</option>
+            <option>Mardi</option>
+            <option>Mercredi</option>
+            <option>Jeudi</option>
+            <option>Vendredi</option>
+            <option>Samedi</option>
+            <option>Dimanche</option>
+        </select>
+
+        <label for="period">Période :</label>
+        <select id="period">
+            <option>Matinée</option>
+            <option>Après-midi</option>
+            <option>Soir</option>
+        </select>
+
+        <label for="task">Tâche :</label>
+        <input type="text" id="task" placeholder="Description de la tâche">
+
+        <label for="email">Notification par mail :</label>
+        <input type="email" id="email" placeholder="votre@email.com">
+
+        <button onclick="addTask()">Ajouter</button>
+    </div>
+
+    <!-- Tableau de gestion du temps -->
+    <table id="planning">
+        <thead>
+            <tr>
+                <th>Jour</th>
+                <th>Matinée</th>
+                <th>Après-midi</th>
+                <th>Soir</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Lundi</td><td></td><td></td><td></td></tr>
+            <tr><td>Mardi</td><td></td><td></td><td></td></tr>
+            <tr><td>Mercredi</td><td></td><td></td><td></td></tr>
+            <tr><td>Jeudi</td><td></td><td></td><td></td></tr>
+            <tr><td>Vendredi</td><td></td><td></td><td></td></tr>
+            <tr><td>Samedi</td><td></td><td></td><td></td></tr>
+            <tr><td>Dimanche</td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+
+    <!-- Schéma récapitulatif -->
+    <h2>Récapitulatif des tâches</h2>
+    <canvas id="taskChart" width="400" height="200"></canvas>
+
+    <script>
+        const taskCount = {
+            "Matinée": 0,
+            "Après-midi": 0,
+            "Soir": 0
+        };
+
+        // Initialiser le graphique
+        const ctx = document.getElementById('taskChart').getContext('2d');
+        const taskChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Matinée", "Après-midi", "Soir"],
+                datasets: [{
+                    label: 'Nombre de tâches',
+                    data: [0, 0, 0],
+                    backgroundColor: ['#4CAF50', '#FF9800', '#2196F3']
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Ajouter une tâche
+        function addTask() {
+            const day = document.getElementById('day').value;
+            const period = document.getElementById('period').value;
+            const task = document.getElementById('task').value;
+            const email = document.getElementById('email').value;
+
+            if (!task) {
+                alert("Veuillez entrer une tâche !");
+                return;
+            }
+
+            // Ajouter la tâche au tableau
+            const rows = document.querySelectorAll('#planning tbody tr');
+            rows.forEach(row => {
+                if (row.cells[0].innerText === day) {
+                    const periodIndex = period === "Matinée" ? 1 : (period === "Après-midi" ? 2 : 3);
+                    row.cells[periodIndex].innerText = task;
+                }
+            });
+
+            // Envoyer un email (simulation via alert)
+            if (email) {
+                alert(`Notification envoyée à ${email} pour la tâche : ${task}`);
+            }
+
+            // Mettre à jour le diagramme
+            taskCount[period]++;
+            updateChart();
+
+            // Réinitialiser les champs
+            document.getElementById('task').value = '';
+            document.getElementById('email').value = '';
+        }
+
+        // Mettre à jour le graphique
+        function updateChart() {
+            taskChart.data.datasets[0].data = [
+                taskCount["Matinée"],
+                taskCount["Après-midi"],
+                taskCount["Soir"]
+            ];
+            taskChart.update();
+        }
+    </script>
 </body>
 </html>
