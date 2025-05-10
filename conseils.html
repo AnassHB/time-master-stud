@@ -2,10 +2,10 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Conseils et Quiz</title>
+  <title>Conseils et Quiz - Time Master Stud</title>
   <link rel="stylesheet" href="style.css">
   <script>
-    // Gestion du quiz
+    // Quiz interactif sur la gestion du temps
     const questions = [
       {
         question: "Quel est le meilleur moment pour planifier sa journée ?",
@@ -18,4 +18,90 @@
         answer: 2
       },
       {
-        question: "Quel outil est le plus efficace pour la gestion du temps
+        question: "Quel outil est le plus efficace pour la gestion du temps ?",
+        choices: ["Un agenda", "Des rappels sur le téléphone", "Un planning hebdomadaire", "Toutes ces réponses"],
+        answer: 3
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    // Charger la question actuelle
+    function loadQuestion() {
+      const quizContainer = document.getElementById("quiz");
+      const questionObj = questions[currentQuestion];
+
+      if (!questionObj) {
+        quizContainer.innerHTML = `
+          <h3>Quiz terminé !</h3>
+          <p>Score : ${score} / ${questions.length}</p>
+          <button onclick="restartQuiz()">Recommencer</button>
+        `;
+        return;
+      }
+
+      quizContainer.innerHTML = `
+        <h3>${questionObj.question}</h3>
+        ${questionObj.choices.map((choice, index) => `
+          <button onclick="checkAnswer(${index})">${choice}</button>
+        `).join("")}
+      `;
+    }
+
+    // Vérifier la réponse et passer à la question suivante
+    function checkAnswer(selected) {
+      const questionObj = questions[currentQuestion];
+      const result = document.getElementById("result");
+
+      if (selected === questionObj.answer) {
+        score++;
+        result.textContent = "Bonne réponse ! 🎉";
+        result.style.color = "green";
+      } else {
+        result.textContent = "Mauvaise réponse 😔";
+        result.style.color = "red";
+      }
+
+      // Passer à la question suivante après un délai
+      setTimeout(() => {
+        currentQuestion++;
+        loadQuestion();
+        result.textContent = "";
+      }, 1000);
+    }
+
+    // Réinitialiser le quiz
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      loadQuestion();
+    }
+
+    // Charger la première question au démarrage
+    window.onload = loadQuestion;
+  </script>
+</head>
+<body>
+  <h1>Conseils pour mieux gérer son temps</h1>
+  <ul>
+    <li>Utilisez une to-do list chaque matin.</li>
+    <li>Évitez les distractions pendant vos sessions de travail.</li>
+    <li>Faites des pauses régulières pour rester concentré.</li>
+    <li>Priorisez les tâches importantes avant les urgences.</li>
+    <li>Évitez le multitâche, concentrez-vous sur une tâche à la fois.</li>
+  </ul>
+
+  <h2>Bien s’organiser</h2>
+  <ol>
+    <li>Fixez des objectifs clairs pour la semaine.</li>
+    <li>Divisez les projets en petites tâches réalisables.</li>
+    <li>Utilisez des couleurs pour chaque type d’activité.</li>
+    <li>Préparez du temps pour les imprévus et la révision.</li>
+  </ol>
+
+  <h2>Quiz interactif sur la gestion du temps</h2>
+  <div id="quiz"></div>
+  <p id="result" style="font-weight: bold; margin-top: 10px;"></p>
+</body>
+</html>
